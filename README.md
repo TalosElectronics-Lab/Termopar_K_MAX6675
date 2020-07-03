@@ -1,0 +1,1 @@
+# Termopar_K_MAX6675
