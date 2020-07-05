@@ -1,44 +1,34 @@
-/*    Max6675 Module  ==>   Arduino
- *    CS              ==>     D10
- *    SO              ==>     D12
- *    SCK             ==>     D13
- *    Vcc             ==>     Vcc (5v)
- *    Gnd             ==>     Gnd      */
-
-//LCD config
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>      //If you don't have the LiquidCrystal_I2C library, download it and install it
-LiquidCrystal_I2C lcd(0x3f, 20, 4); //sometimes the adress is not 0x3f. Change to 0x27 if it dosn't work.
-
-/*    i2c LCD Module  ==>   Arduino
- *    SCL             ==>     A5
- *    SDA             ==>     A4
- *    Vcc             ==>     Vcc (5v)
- *    Gnd             ==>     Gnd      */
+LiquidCrystal_I2C lcd(0x27, 20, 4); //sometimes the adress is not 0x3f. Change to 0x27 if it dosn't work.
 
 #include <SPI.h>
 
-#define MAX6675_CS 10
-#define MAX6675_SO 12
-#define MAX6675_SCK 13
+#define MAX6675_SO 2
+#define MAX6675_CS 3
+#define MAX6675_SCK 4
 
 void setup()
 {
     lcd.init();
     lcd.backlight();
+    lcd.setCursor(5,1);
+    lcd.print("Bienvenido");
+    delay(1500);
+    lcd.clear();
 }
 
 void loop()
 {
-    float temperature_read = readThermocouple();
-    lcd.setCursor(0, 0);
-    lcd.print("TEMPERATURE");
-    lcd.setCursor(7, 1);
-    lcd.print(temperature_read, 1);
+    float temperatura = leer_termopar();
+    lcd.setCursor(2, 1);
+    lcd.print("Termopar tipo K");
+    lcd.setCursor(7, 2);
+    lcd.print(temperatura, 2);
     delay(300);
 }
 
-double readThermocouple()
+double leer_termopar()
 {
 
     uint16_t v;
